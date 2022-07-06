@@ -107,6 +107,7 @@ export default {
       createStory(story)
       this.getTest();
       this.showWriteStory = false;
+      this.updateStory = null;
     },
 
     // ..................get all the stories..............
