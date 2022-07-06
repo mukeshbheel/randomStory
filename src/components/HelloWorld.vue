@@ -15,9 +15,10 @@
       </div>
     </header>
     <main>
-      <button @click="setDefault()" v-if="showWriteStory || showStories">
+      <button @click="setDefault()" v-if="(showWriteStory || showStories) && updateStory == null ">
         go back
       </button>
+      <button v-if=" updateStory != null" @click="updateStory = null">cancel</button>
       <div class="container" v-if="!showWriteStory && !showStories">
         <Card
           title="check Stories"
@@ -33,7 +34,7 @@
         />
       </div>
     </main>
-    <div v-if="showStories && firebaseData != null">
+    <div v-if="showStories && firebaseData != null && updateStory == null">
       <!-- <div v-for="story in stories" :key="story.id">
         <p>{{ story.id }}</p>
         <p>{{ story.text }}</p>
@@ -42,13 +43,14 @@
         <div v-if="story">
           <p>{{ story.id }}</p>
           <p>{{ story.text }}</p>
-          <button>Continue</button>
+          <button @click="updateStory = story">Continue</button>
           <button @click="deleteStory(story.id)">Delete</button>
         </div>
         
       </div>
     </div>
     <AddStory v-if="showWriteStory" @save="save" />
+    <AddStory :updateStory="updateStory" v-if="updateStory" @save="save"/>
     <!-- <button @click="getTest()">click</button>
     <p v-if="firebaseData">{{ firebaseData.length }}</p>
     <p v-if="firebaseData">{{ firebaseData }}</p> -->
@@ -76,6 +78,7 @@ export default {
       showStories: false,
       firebaseData: [],
       stories: [],
+      updateStory:null,
       
       demoData: [
         {
@@ -101,8 +104,8 @@ export default {
         id: event.storyId,
         text: event.story,
       }
-      this.firebaseData.push(story);
       createStory(story)
+      this.getTest();
       this.showWriteStory = false;
     },
 

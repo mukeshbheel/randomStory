@@ -22,9 +22,15 @@ export default {
   data() {
     return {
       randomWord: "",
-      story: "",
-      storyId: '',
+      story: this.updateStory? this.updateStory.text:"",
+      storyId: this.updateStory? this.updateStory.id:"",
     };
+  },
+  props:{
+    updateStory:{
+      type: Object,
+      default: null,
+    }
   },
   methods: {
     nextWord() {
