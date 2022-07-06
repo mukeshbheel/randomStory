@@ -38,10 +38,12 @@
         <p>{{ story.id }}</p>
         <p>{{ story.text }}</p>
       </div> -->
-      <div v-for="story in firebaseData" :key="story">
+      <div v-for="story in getStories" :key="story" class="storyBlock">
         <div v-if="story">
           <p>{{ story.id }}</p>
           <p>{{ story.text }}</p>
+          <button>Continue</button>
+          <button @click="deleteStory(story.id)">Delete</button>
         </div>
         
       </div>
@@ -57,7 +59,7 @@
 import Card from "./Card.vue";
 import AddStory from "./AddStory.vue";
 import { createStory, db } from '../firebase.js';
-import { getDatabase, ref, set, get, child } from "firebase/database";
+import { getDatabase, ref, set, get, child, remove } from "firebase/database";
 
 export default {
   name: "HelloWorld",
@@ -84,6 +86,11 @@ export default {
       ],
     };
   },
+  computed:{
+    getStories(){
+      return this.firebaseData;
+    }
+  },
   methods: {
     setDefault() {
       this.showWriteStory = false;
@@ -91,38 +98,62 @@ export default {
     },
     save(event) {
       const story = {
-        id: this.firebaseData.length + 1,
-        text: event,
+        id: event.storyId,
+        text: event.story,
       }
       this.firebaseData.push(story);
       createStory(story)
       this.showWriteStory = false;
     },
+
+    // ..................get all the stories..............
+
     getTest() {
-    const dbRef = ref(db);
-    get(child(dbRef, `stories`)).then((snapshot) => {
+      const dbRef = ref(db);
+      get(child(dbRef, `stories`)).then((snapshot) => {
         if (snapshot.exists()) {
           
           console.log(snapshot.val());
 
-          var data = snapshot.val()
+          // var data = snapshot.val();
+
+          var data = Object.values(snapshot.val());
+
+          console.log(data);
 
           this.firebaseData = data.filter( item => item != null);
+          // this.firebaseData = data;
 
           // Object.keys(snapshot.val()).forEach(key => {
           // if (obj[key] === null) {
           // delete obj[key];
           // }
-// });
+         // });
 
           
         } else {
           console.log("No data available");
+          this.firebaseData = []
         }
       }).catch((error) => {
         console.error(error);
       });
-  }
+    },
+
+    // ........................Delete a story...............
+
+    deleteStory(id) {
+      // console.log(id)
+      console.log(id);
+      remove(ref(db, 'stories/'+id))
+      .then(()=>{
+        alert('data removed successfully')
+        this.getTest();
+      })
+      .catch((error)=>{
+        alert("unsuccessful, error"+error)
+      })
+    }
   },
   mounted(){
     this.getTest();
@@ -180,10 +211,15 @@ p {
   padding: 9px 40px;
   line-height: 2;
   font-family: monospace;
+  word-wrap: break-word;
 }
 button {
     width: 88px;
     height: 34px;
+    margin: 5px;
     text-transform: capitalize;
+}
+.storyBlock {
+    margin: 7%;
 }
 </style>

@@ -18,10 +18,7 @@ const firebaseConfig = {
 //   const storiesRef = db.ref('stories')
 
   export const createStory = story => {
-    set(ref(db, 'stories/' + story.id), {
-        id: story.id,
-        text: story.text,
-      });
+    set(ref(db, 'stories/' + story.id), story);
   }
 
   export const getStory = async => {

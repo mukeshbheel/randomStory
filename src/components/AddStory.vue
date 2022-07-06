@@ -5,6 +5,8 @@
 
     <div>
       <!-- <input type="text" /> -->
+      <input type="number" v-model="storyId" placeholder="
+      Story number" required><br>
       <textarea name="" id="" cols="10%" rows="4" v-model="story"></textarea>
     </div>
     <div>
@@ -21,6 +23,7 @@ export default {
     return {
       randomWord: "",
       story: "",
+      storyId: '',
     };
   },
   methods: {
@@ -28,7 +31,7 @@ export default {
       this.randomWord = randomWords();
     },
     save() {
-      this.$emit("save", this.story);
+      this.$emit("save", {storyId:this.storyId, story: this.story});
     },
   },
   mounted() {
