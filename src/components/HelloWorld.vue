@@ -224,6 +224,11 @@ button {
     text-transform: capitalize;
 }
 .storyBlock {
-    margin: 7%;
+    margin: 7% auto;
+    padding: 5%;
+    /* border: black solid; */
+    width: 56%;
+    height: 693px;
+    background: #f7ebda;
 }
 </style>
