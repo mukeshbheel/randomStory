@@ -42,7 +42,7 @@
       <div v-for="story in getStories" :key="story" class="storyBlock">
         <div v-if="story">
           <p>{{ story.id }}</p>
-          <p>{{ story.text }}</p>
+          <p v-html="story.text"></p>
           <button @click="updateStory = story">Continue</button>
           <button @click="deleteStory(story.id)">Delete</button>
         </div>
