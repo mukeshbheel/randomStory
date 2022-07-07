@@ -231,4 +231,16 @@ button {
     height: 693px;
     background: #f7ebda;
 }
+@media screen and (max-width: 658px) {
+  main {
+    display: block;
+  }
+  textarea {
+    width: 45%;
+    margin: 43px;
+  }
+  input {
+    margin: 5px;
+  }
+}
 </style>
