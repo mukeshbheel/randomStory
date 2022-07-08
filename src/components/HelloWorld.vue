@@ -228,7 +228,8 @@ button {
     padding: 5%;
     /* border: black solid; */
     width: 56%;
-    height: 693px;
+    min-height: 644px;
+    border-left: solid black;
     background: #f7ebda;
 }
 @media screen and (max-width: 658px) {
